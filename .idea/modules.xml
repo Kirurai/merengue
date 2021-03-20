@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Practico1_Lab4/Practico1_Lab4.iml" filepath="$PROJECT_DIR$/Practico1_Lab4/Practico1_Lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/merengueFront.iml" filepath="$PROJECT_DIR$/.idea/merengueFront.iml" />
+    </modules>
+  </component>
+</project>

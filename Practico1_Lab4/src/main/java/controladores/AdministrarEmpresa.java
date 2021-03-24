@@ -24,7 +24,6 @@ public class AdministrarEmpresa {
 
     public Empresa Buscar(int id) {
         return entityManager.find(Empresa.class, id);
-
     }
 
     public void Modificar(int id, @org.jetbrains.annotations.NotNull Empresa empresaModificada) {

@@ -12,7 +12,7 @@ public class Main {
         try {
             //iniciar transaccion
             em.getTransaction().begin();
-
+            em.setProperty("javax.persistence.schema-generation.database.action", "none");
             //instrucciones
 
 

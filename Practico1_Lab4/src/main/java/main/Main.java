@@ -10,18 +10,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU");
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            //iniciar transaccion
-            em.getTransaction().begin();
-
-            //instrucciones
-
 
             //Prueba AdministradorEmpresa
-            AdministrarEmpresa administrarEmpresa= new AdministrarEmpresa(em);
+            AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa();
 
             administrarEmpresa.Alta(new Empresa("Tiburones",
                     "654987",
@@ -47,30 +38,6 @@ public class Main {
                 System.out.println(e.getDenominacion());
             }
             //FIN Prueba AdministradorEmpresa
-
-
-            //fin instrucciones
-
-            //limpiar conexion
-            em.flush();
-
-            //commit
-            em.getTransaction().commit();
-
-
-        }catch (Exception e){
-
-            //rollback
-            em.getTransaction().rollback();
-
-        }
-
-        //cerrar conexion de em y emf
-        em.close();
-        emf.close();
-
-
-
 
     }
 

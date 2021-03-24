@@ -6,17 +6,23 @@ import entidades.Empresa;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU");
+        Map<String, String> persistenceMap = new HashMap<>();
+
+        persistenceMap.put("javax.persistence.schema-generation.database.action", "none");
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
         EntityManager em = emf.createEntityManager();
 
         try {
             //iniciar transaccion
             em.getTransaction().begin();
-            em.setProperty("javax.persistence.schema-generation.database.action", "none");
+            em.setProperty("javax.persistence.schema-generation.database.action", "create");
             //instrucciones
 
 

@@ -6,11 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class AdministrarNoticia {
 
     private EntityManager entityManager;
-    private EntityTransaction entityTransaction;
     private EntityManagerFactory entityManagerFactory;
 
     public AdministrarNoticia(){
@@ -21,7 +21,6 @@ public class AdministrarNoticia {
 
     public AdministrarNoticia(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.entityTransaction = this.entityManager.getTransaction();
     }
 
     public void Alta(Noticia noticia) {
@@ -39,61 +38,38 @@ public class AdministrarNoticia {
 
     }
 
-   /* public Noticia Buscar(int id) {
+   public Noticia Buscar(int id) {
         return entityManager.find(Noticia.class, id);
     }
 
     public void Modificar(int id, @org.jetbrains.annotations.NotNull Noticia noticiaModificada) {
-        beginTransaction();
-        Noticia noticia = entityManager.find(Noticia.class, id);
-        noticiaModificada.setId(noticia.getId());
-        entityManager.merge(noticiaModificada);
-        commitTransaction();
+        try{
+            entityManager.getTransaction().begin();
+            Noticia noticia = entityManager.find(Noticia.class, id);
+            noticiaModificada.setId(noticia.getId());
+            entityManager.merge(noticiaModificada);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }catch (Exception e){
+            entityManager.getTransaction().rollback();
+        }
     }
 
     public void Baja(int id) {
-        beginTransaction();
-        Noticia noticia = entityManager.find(Noticia.class, id);
-        entityManager.remove(noticia);
-        commitTransaction();
+        try{
+            entityManager.getTransaction().begin();
+            Noticia noticia = entityManager.find(Noticia.class, id);
+            entityManager.remove(noticia);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }catch (Exception e){
+            entityManager.getTransaction().rollback();
+        }
+
     }
 
     public List<Noticia> Listar() {
         return entityManager.createQuery("SELECT a FROM Noticia a", Noticia.class).getResultList();
     }
 
-
-    private void beginTransaction() {
-        try {
-            entityTransaction.begin();
-        } catch (IllegalStateException e) {
-            rollbackTransaction();
-        }
-    }
-
-    private void commitTransaction() {
-        try {
-            entityTransaction.commit();
-            entityManager.close();
-        } catch (IllegalStateException e) {
-            rollbackTransaction();
-        }
-    }
-
-    private void rollbackTransaction() {
-        try {
-            entityTransaction.rollback();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void closeTransaction() {
-        try {
-            entityManager.close();
-            entityManagerFactory.close();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

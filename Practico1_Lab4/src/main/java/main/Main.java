@@ -37,6 +37,8 @@ public class Main {
             for (Empresa e:ListaDeEmpresas) {
                 System.out.println(e.getDenominacion());
             }
+
+            administrarEmpresa.cerrarEmEmf();
             //FIN Prueba AdministradorEmpresa
 
     }

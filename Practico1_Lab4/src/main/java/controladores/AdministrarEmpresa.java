@@ -16,11 +16,11 @@ public class AdministrarEmpresa {
 
 
     public AdministrarEmpresa() {
-//        try {
-//            crearEmEmf();
-//        }catch (Exception e){
-//
-//        }
+        try {
+            crearEmEmf();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+       }
     }
 
     private void crearEmEmf(){
@@ -30,43 +30,33 @@ public class AdministrarEmpresa {
     }
 
     public void Alta(Empresa empresa) {
-        crearEmEmf();
         entityManager.persist(empresa);
         commitTransaction();
-        cerrarEmEmf();
+//        cerrarEmEmf();
     }
 
     public Empresa Buscar(int id) {
-        crearEmEmf();
-        Empresa EmpresaResultado = entityManager.find(Empresa.class, id);
-        cerrarEmEmf();
-        return EmpresaResultado;
+          return entityManager.find(Empresa.class, id);
     }
 
     public void Modificar(int id, @org.jetbrains.annotations.NotNull Empresa empresaModificada) {
-        crearEmEmf();
         beginTransaction();
         Empresa empresa = entityManager.find(Empresa.class, id);
         empresaModificada.setId(empresa.getId());
         entityManager.merge(empresaModificada);
         commitTransaction();
-        cerrarEmEmf();
+//        cerrarEmEmf();
     }
 
     public void Baja(int id) {
-        crearEmEmf();
         beginTransaction();
         Empresa empresa = entityManager.find(Empresa.class, id);
         entityManager.remove(empresa);
         commitTransaction();
-        cerrarEmEmf();
     }
 
     public List<Empresa> Listar() {
-        crearEmEmf();
-        List<Empresa> ResultadoLista = entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
-        cerrarEmEmf();
-        return ResultadoLista;
+        return entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
     }
 
 
@@ -97,7 +87,7 @@ public class AdministrarEmpresa {
         }
     }
 
-    private void cerrarEmEmf(){
+    public void cerrarEmEmf(){
         //cerrar conexion de em y emf
         //this.entityManager.flush();
         this.entityManager.close();

@@ -21,17 +21,11 @@
                 out.println(emp.getDenominacion());
                 out.println("</td>");
                 out.println("<td>");
-                //Se pasaría como petición get?
-                out.println(String.format("<a href='%s'>Home %s</a>", emp.getId(), emp.getDenominacion()));
+                //Se pasaría como petición get? Está bien asi?
+                out.println(String.format("<a href='home.html?id=%s'>Home %s</a>", emp.getId(), emp.getDenominacion()));
                 out.println("</td>");
                 out.println("</tr>");
             }
         %>
-        <td>
-            XXXXXXXX
-        </td>
-        <td>
-            <a href="home.html?id=1">URL PAGINA HOME</a>
-        </td>
     </tr>
 </table>

@@ -19,17 +19,13 @@ public class Main {
         //Esto solo ejecutarlo para crear y llenar la base de datos
         Map<String, String> persistenceMap = new HashMap<>();
         persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
+        EntityManager em = emf.createEntityManager();
         //------------------------------------------------------------
 
         //Bloque para llamar a AdministrarNoticia
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
-        EntityManager em = emf.createEntityManager();
         AdministrarNoticia administrarNoticia = new AdministrarNoticia(em);
-        //------------------------------------------------------------
-
-
-        //Bloque para llamar a AdministrarEmpresa
-        AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa();
+        AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa(em);
         //------------------------------------------------------------
 
         Empresa emp1 = new Empresa(
@@ -113,9 +109,6 @@ public class Main {
         emf.close();
         //------------------------------------------------------------
 
-        //Bloque para cerrar conexion de em y emf que usa administrarEmpresa
-        administrarEmpresa.cerrarEmf();
-        //------------------------------------------------------------
     }
 
 

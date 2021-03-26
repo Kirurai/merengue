@@ -10,18 +10,17 @@ import java.util.List;
 
 public class AdministrarEmpresa {
 
-    private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
 
-    public AdministrarEmpresa() {
+    public AdministrarEmpresa(EntityManager em) {
         try {
-            this.entityManagerFactory = Persistence.createEntityManagerFactory("AppPU");
+            this.entityManager = em;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void Alta(Empresa empresa) {
-        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
             entityManager.persist(empresa);
@@ -29,22 +28,14 @@ public class AdministrarEmpresa {
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-        } finally {
-            entityManager.close();
         }
     }
 
     public Empresa Buscar(int id) {
-        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.find(Empresa.class, id);
-        } finally {
-            entityManager.close();
-        }
+        return entityManager.find(Empresa.class, id);
     }
 
     public void Modificar(int id, @org.jetbrains.annotations.NotNull Empresa empresaModificada) {
-        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
             Empresa empresa = entityManager.find(Empresa.class, id);
@@ -54,13 +45,10 @@ public class AdministrarEmpresa {
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-        } finally {
-            entityManager.close();
         }
-     }
+    }
 
     public void Baja(int id) {
-        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         try {
             Empresa empresa = entityManager.find(Empresa.class, id);
@@ -69,23 +57,11 @@ public class AdministrarEmpresa {
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-        } finally {
-            entityManager.close();
         }
     }
 
     public List<Empresa> Listar() {
-        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-
-    public void cerrarEmf() {
-        this.entityManagerFactory.close();
+        return entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
     }
 
 

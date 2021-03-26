@@ -114,7 +114,7 @@ public class Main {
         //------------------------------------------------------------
 
         //Bloque para cerrar conexion de em y emf que usa administrarEmpresa
-        administrarEmpresa.cerrarEmEmf();
+        administrarEmpresa.cerrarEmf();
         //------------------------------------------------------------
     }
 

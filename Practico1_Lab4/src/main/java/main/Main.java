@@ -17,21 +17,21 @@ public class Main {
     public static void main(String[] args){
 
         //Esto solo ejecutarlo para crear y llenar la base de datos
-
         Map<String, String> persistenceMap = new HashMap<>();
-
         persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
-
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
+        //------------------------------------------------------------
+
+        /*Es necesario crear un entityManager en el main/index que sea compartido por los dos controladores
+        para que hibernate guarde las noticias. Para guardar una noticia, necesita que las empresas emp1, emp2
+        creadas previamente, hayan sido entityManager.persist(empresa); (por el controlador administrarEmpresa)
+        y que ese entityManager sea el mismo que usa noticias y que no se haya cerrado (por eso em.close(); recien
+        al final del programa)
+         */
         EntityManager em = emf.createEntityManager();
-
-
-            //iniciar transaccion
-//            em.getTransaction().begin();
-            //instrucciones
-
-        AdministrarEmpresa administrarEmpresa= new AdministrarEmpresa(em);
+        AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa(em);
         AdministrarNoticia administrarNoticia = new AdministrarNoticia(em);
+        //------------------------------------------------------------
 
         Empresa emp1 = new Empresa(
                 "Empresa Dummy",
@@ -100,19 +100,19 @@ public class Main {
                 emp2
         ));
 
+        //Ejemplos de uso de administrarEmpresas
+        List<Empresa> empresas =  administrarEmpresa.Listar();
+        for (Empresa e:empresas
+             ) {
+            System.out.println(e.getDenominacion());
+        }
 
-        //fin instrucciones
+        //------------------------------------------------------------
 
-        //limpiar conexion
-//            em.flush();
-
-        //commit
-//            em.getTransaction().commit();
-
-
-        //cerrar conexion de em y emf
+        //Bloque para cerrar conexion de em y emf
         em.close();
         emf.close();
+        //------------------------------------------------------------
 
     }
 

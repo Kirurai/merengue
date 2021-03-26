@@ -20,12 +20,17 @@ public class Main {
         Map<String, String> persistenceMap = new HashMap<>();
         persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
-        EntityManager em = emf.createEntityManager();
         //------------------------------------------------------------
 
-        //Bloque para llamar a AdministrarNoticia
-        AdministrarNoticia administrarNoticia = new AdministrarNoticia(em);
+        /*Es necesario crear un entityManager en el main/index que sea compartido por los dos controladores
+        para que hibernate guarde las noticias. Para guardar una noticia, necesita que las empresas emp1, emp2
+        creadas previamente, hayan sido entityManager.persist(empresa); (por el controlador administrarEmpresa)
+        y que ese entityManager sea el mismo que usa noticias y que no se haya cerrado (por eso em.close(); recien
+        al final del programa)
+         */
+        EntityManager em = emf.createEntityManager();
         AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa(em);
+        AdministrarNoticia administrarNoticia = new AdministrarNoticia(em);
         //------------------------------------------------------------
 
         Empresa emp1 = new Empresa(
@@ -104,7 +109,7 @@ public class Main {
 
         //------------------------------------------------------------
 
-        //Bloque para cerrar conexion de em y emf que usa AdministrarNoticia
+        //Bloque para cerrar conexion de em y emf
         em.close();
         emf.close();
         //------------------------------------------------------------

@@ -17,21 +17,20 @@ public class Main {
     public static void main(String[] args){
 
         //Esto solo ejecutarlo para crear y llenar la base de datos
-
         Map<String, String> persistenceMap = new HashMap<>();
-
         persistenceMap.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+        //------------------------------------------------------------
 
+        //Bloque para llamar a AdministrarNoticia
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("AppPU", persistenceMap);
         EntityManager em = emf.createEntityManager();
-
-
-            //iniciar transaccion
-//            em.getTransaction().begin();
-            //instrucciones
-
-        AdministrarEmpresa administrarEmpresa= new AdministrarEmpresa(em);
         AdministrarNoticia administrarNoticia = new AdministrarNoticia(em);
+        //------------------------------------------------------------
+
+
+        //Bloque para llamar a AdministrarEmpresa
+        AdministrarEmpresa administrarEmpresa = new AdministrarEmpresa();
+        //------------------------------------------------------------
 
         Empresa emp1 = new Empresa(
                 "Empresa Dummy",
@@ -100,20 +99,23 @@ public class Main {
                 emp2
         ));
 
+        //Ejemplos de uso de administrarEmpresas
+        List<Empresa> empresas =  administrarEmpresa.Listar();
+        for (Empresa e:empresas
+             ) {
+            System.out.println(e.getDenominacion());
+        }
 
-        //fin instrucciones
+        //------------------------------------------------------------
 
-        //limpiar conexion
-//            em.flush();
-
-        //commit
-//            em.getTransaction().commit();
-
-
-        //cerrar conexion de em y emf
+        //Bloque para cerrar conexion de em y emf que usa AdministrarNoticia
         em.close();
         emf.close();
+        //------------------------------------------------------------
 
+        //Bloque para cerrar conexion de em y emf que usa administrarEmpresa
+        administrarEmpresa.cerrarEmEmf();
+        //------------------------------------------------------------
     }
 
 

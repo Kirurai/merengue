@@ -30,6 +30,7 @@ public class AdministrarEmpresa {
     }
 
     public void Alta(Empresa empresa) {
+        beginTransaction();
         entityManager.persist(empresa);
         commitTransaction();
 //        cerrarEmEmf();

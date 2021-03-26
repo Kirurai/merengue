@@ -10,88 +10,81 @@ import java.util.List;
 
 public class AdministrarEmpresa {
 
-    private EntityManager entityManager;
-    private EntityTransaction entityTransaction;
     private EntityManagerFactory entityManagerFactory;
-
 
     public AdministrarEmpresa() {
         try {
-            crearEmEmf();
-        }catch (Exception e){
+            this.entityManagerFactory = Persistence.createEntityManagerFactory("AppPU");
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-       }
-    }
-
-    private void crearEmEmf(){
-        this.entityManagerFactory = Persistence.createEntityManagerFactory("AppPU");
-        this.entityManager = this.entityManagerFactory.createEntityManager();
-        this.entityTransaction = this.entityManager.getTransaction();
+        }
     }
 
     public void Alta(Empresa empresa) {
-        beginTransaction();
-        entityManager.persist(empresa);
-        commitTransaction();
-//        cerrarEmEmf();
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            entityManager.persist(empresa);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
+        }
     }
 
     public Empresa Buscar(int id) {
-          return entityManager.find(Empresa.class, id);
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        try {
+            return entityManager.find(Empresa.class, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     public void Modificar(int id, @org.jetbrains.annotations.NotNull Empresa empresaModificada) {
-        beginTransaction();
-        Empresa empresa = entityManager.find(Empresa.class, id);
-        empresaModificada.setId(empresa.getId());
-        entityManager.merge(empresaModificada);
-        commitTransaction();
-//        cerrarEmEmf();
-    }
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            Empresa empresa = entityManager.find(Empresa.class, id);
+            empresaModificada.setId(empresa.getId());
+            entityManager.merge(empresaModificada);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
+        }
+     }
 
     public void Baja(int id) {
-        beginTransaction();
-        Empresa empresa = entityManager.find(Empresa.class, id);
-        entityManager.remove(empresa);
-        commitTransaction();
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        try {
+            Empresa empresa = entityManager.find(Empresa.class, id);
+            entityManager.remove(empresa);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
+        }
     }
 
     public List<Empresa> Listar() {
-        return entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
-    }
-
-
-    private void beginTransaction() {
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         try {
-            entityTransaction.begin();
-        } catch (IllegalStateException e) {
-            rollbackTransaction();
+            return entityManager.createQuery("SELECT a FROM Empresa a", Empresa.class).getResultList();
+        } finally {
+            entityManager.close();
         }
     }
 
-    private void commitTransaction() {
-        try {
-            entityTransaction.commit();
-            //entityManager.close();
-            //limpiar conexion
 
-        } catch (IllegalStateException e) {
-            rollbackTransaction();
-        }
-    }
-
-    private void rollbackTransaction() {
-        try {
-            entityTransaction.rollback();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cerrarEmEmf(){
-        //cerrar conexion de em y emf
-        //this.entityManager.flush();
-        this.entityManager.close();
+    public void cerrarEmf() {
         this.entityManagerFactory.close();
     }
 

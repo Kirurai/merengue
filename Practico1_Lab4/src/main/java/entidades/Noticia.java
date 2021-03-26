@@ -33,4 +33,80 @@ public class Noticia implements Serializable {
     @JoinColumn(name = "id_empresa")
     private Empresa empresa;
 
+    public Noticia() {
+    }
+
+    public Noticia(String titulo, String resumen, String imagen, String contenidoHTML, char publicada, Date fechaPublicacion, Empresa empresa) {
+        this.titulo = titulo;
+        this.resumen = resumen;
+        this.imagen = imagen;
+        this.contenidoHTML = contenidoHTML;
+        this.publicada = publicada;
+        this.fechaPublicacion = fechaPublicacion;
+        this.empresa = empresa;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getResumen() {
+        return resumen;
+    }
+
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getContenidoHTML() {
+        return contenidoHTML;
+    }
+
+    public void setContenidoHTML(String contenidoHTML) {
+        this.contenidoHTML = contenidoHTML;
+    }
+
+    public char getPublicada() {
+        return publicada;
+    }
+
+    public void setPublicada(char publicada) {
+        this.publicada = publicada;
+    }
+
+    public Date getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(Date fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
 }

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PruebaIntelliJAppWEB" />
+        <module name="Practico1_Lab4" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="PruebaIntelliJAppWEB" target="1.8" />
+      <module name="Practico1_Lab4" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
